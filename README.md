@@ -81,3 +81,61 @@
   * ## 키워드
     * ![img_23.png](src/main/resources/image/image2/img_23.png)
 
+* # Spring & JPA 기반 테스트
+  * ## 레이어드 아키텍처(Layered Architecture)와 테스트
+    * ### 레이어를 나눈 이유 -> 관심사를 나누기 위해
+    * ![img.png](img.png)
+  * ## 통합 테스트 ?
+    * ### 필요한 이유 ? -> A 더하기 B가 AB라는 보장이 없으니깐 
+    * ![img_1.png](img_1.png)
+  * ## Spring / JPA 훑어보기 & 기본 엔티티 설계
+    * ### Library vs Framework
+      * #### Library : 내 코드가 주체가 되서 필요한 기능이 있다면 외부에서 끌어와서 사용하게 되는 것들 (내 코드가 주체..능동적)
+      * #### Framework : 이미 갖춰진 동작할 수 있는 그런 환경들이 구성 되어있고 내 코드가 수동적으로 프레임워크 안에서 역할을 하게되는 것 (수동적...)
+      * ![img_2.png](img_2.png)
+    * ### Spring
+      * ![img_3.png](img_3.png)
+    * ### JPA
+      * ### ORM
+        * ![img_4.png](img_4.png)
+        * ![img_5.png](img_5.png)
+      * ### JPA
+        * ![img_6.png](img_6.png)
+        * ![img_7.png](img_7.png)
+        * ![img_8.png](img_8.png)
+    * ### 엔티티 설계
+      * ![img_9.png](img_9.png)
+      * ![img_10.png](img_10.png)
+  * ## Persistence Layer 테스트 (1)
+    * ![img_11.png](img_11.png)
+    * ![img_12.png](img_12.png)
+      * ### @MappedSuperclass 
+        * #### -> **JPA(Java Persistence API)**에서 사용되며, 엔티티 클래스들이 상속받을 수 있는 공통 부모 클래스를 정의할 때 사용
+        * #### -> @MappedSuperclass로 지정된 클래스는 엔티티가 아니기 때문에 테이블에 직접 매핑되지 않습니다. 하지만, 상속받는 클래스가 실제 엔티티일 경우, BaseEntity의 필드들이 상속 엔티티 테이블의 컬럼으로 매핑
+      * ### @EntityListeners(AuditingEntityListener.class)
+        * #### -> JPA 엔티티의 변경 사항을 감지하고, 이를 처리할 수 있도록 이벤트 리스너를 등록하는 데 사용되는 애너테이션
+        * #### -> *AuditingEntityListener**는 엔티티의 생성/수정 시간을 자동으로 기록하는 JPA 감사 기능(Auditing)을 제공하는 리스너입니다. 이를 통해 데이터가 언제 생성되었고, 언제 수정되었는지 자동으로 기록
+      * ### @CreatedDate
+        * #### -> JPA의 Auditing 기능을 활성화했을 때 사용
+        * #### -> 해당 엔티티가 처음 저장될 때의 시간을 자동으로 기록합니다. 즉, 엔티티가 처음 생성되어 DB에 저장될 때 createdDateTime 필드에 해당 시점이 기록
+      * ### @LastModifiedDate
+        * #### -> 마찬가지로 JPA Auditing 기능을 이용하여, 엔티티가 수정될 때의 시간을 자동으로 기록
+        * #### -> 티티가 업데이트될 때마다 modifiedDateTime 필드에 해당 시점이 저장
+      * ![img_13.png](img_13.png)
+        * ####  JPA Auditing 기능을 사용한다고 SpringBoot에게 알려줘야함
+      * ![img_14.png](img_14.png)
+    * ### application.yml 
+      * ![img_15.png](img_15.png)
+      * ![img_16.png](img_16.png)
+        * #### Spring Profiles : Default : local -> 프로파일을 지정하지 않으면 항상 하위에 있는 Local Profile로 뜬다를 기본으로 설정 
+        * #### DataSource 기본을 h2로 지정 -> MYSQL, Oracle..변환 가능
+        * #### ddl-auto : none -> 기본설정을 none으로 지정, local, test에서만 create로 지정 
+          * #### create, create-drop : DDL 자체를 서버가 뜰 때 새로 만들 것인가, create-drop은 새로 만들었다가 서버가 내려갈 떄 드랍이 되어버림
+          * #### -> 매번 테스트를 하기 위해서 DDL 할 필요가 없어짐 (jpa entity기반으로 테이블 생성해줌)
+        * ####  defer-datasource-initialization: true -> 매번 데이터 생성하는 번거러움을 제거해줌, data.sql파일에 있는 sql문을 실행시켜줌
+          * ![img_18.png](img_18.png)
+            * #### Hibernate 초기화 이후 data.sql 실행시켜줌 
+            * #### Hibernate가 초기화 되어야 테이블 정보가 생성됨
+      * ![img_17.png](img_17.png)
+        * #### 테스트용 Profile -> 테스트를 실행할 때는 이 프로파일로 테스트 프로파일로 돌리도록 함
+        * #### mode : never -> data.sql을 사용하지 않을거라서 설정해둠
