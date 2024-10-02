@@ -139,3 +139,22 @@
       * ![img_17.png](img_17.png)
         * #### 테스트용 Profile -> 테스트를 실행할 때는 이 프로파일로 테스트 프로파일로 돌리도록 함
         * #### mode : never -> data.sql을 사용하지 않을거라서 설정해둠
+    * ### ProductEntity
+      * ![img_22.png](img_22.png)
+    * ### ProductRepository
+      * ![img_19.png](img_19.png)
+    * ### ProductService
+      * ![img_20.png](img_20.png)
+    * ### ProductController
+      * ![img_21.png](img_21.png)
+    * ### 실행결과
+      * ![img_23.png](img_23.png)
+
+  * ## Persistence Layer 테스트 (2)
+    * ### 리포지토리테스트 -> 단위 테스트 성격에 가까움 why? 데이터베이스에 액세스하는 로직만 가지고 있기 때문에
+    * ### @SpringBootTest : Spring 서버를 띄워서 테스트할 수 있음
+    * ### @DataJpaTest : 애도 Spring 서버를 띄움 but @SpringBootTest보다 가벼움 why? jpa 관련된 빈들만 주입을 해줘서 서버를 띄우기 때문에
+    * ![img_24.png](img_24.png)
+      * #### list테스트할 때 주로 쓰는 메서드들
+    * ![img_25.png](img_25.png)
+      * #### ActiveProfiles("test") -> test Profile을 쓰겠다라는 뜻 (data.sql파일 실행X)
