@@ -84,31 +84,31 @@
 * # Spring & JPA 기반 테스트
   * ## 레이어드 아키텍처(Layered Architecture)와 테스트
     * ### 레이어를 나눈 이유 -> 관심사를 나누기 위해
-    * ![img.png](img.png)
+    * ![img.png](src/main/resources/image/image3/img.png)
   * ## 통합 테스트 ?
     * ### 필요한 이유 ? -> A 더하기 B가 AB라는 보장이 없으니깐 
-    * ![img_1.png](img_1.png)
+    * ![img_1.png](src/main/resources/image/image3/img_1.png)
   * ## Spring / JPA 훑어보기 & 기본 엔티티 설계
     * ### Library vs Framework
       * #### Library : 내 코드가 주체가 되서 필요한 기능이 있다면 외부에서 끌어와서 사용하게 되는 것들 (내 코드가 주체..능동적)
       * #### Framework : 이미 갖춰진 동작할 수 있는 그런 환경들이 구성 되어있고 내 코드가 수동적으로 프레임워크 안에서 역할을 하게되는 것 (수동적...)
-      * ![img_2.png](img_2.png)
+      * ![img_2.png](src/main/resources/image/image3/img_2.png)
     * ### Spring
-      * ![img_3.png](img_3.png)
+      * ![img_3.png](src/main/resources/image/image3/img_3.png)
     * ### JPA
       * ### ORM
-        * ![img_4.png](img_4.png)
-        * ![img_5.png](img_5.png)
+        * ![img_4.png](src/main/resources/image/image3/img_4.png)
+        * ![img_5.png](src/main/resources/image/image3/img_5.png)
       * ### JPA
-        * ![img_6.png](img_6.png)
-        * ![img_7.png](img_7.png)
-        * ![img_8.png](img_8.png)
+        * ![img_6.png](src/main/resources/image/image3/img_6.png)
+        * ![img_7.png](src/main/resources/image/image3/img_7.png)
+        * ![img_8.png](src/main/resources/image/image3/img_8.png)
     * ### 엔티티 설계
-      * ![img_9.png](img_9.png)
-      * ![img_10.png](img_10.png)
+      * ![img_9.png](src/main/resources/image/image3/img_9.png)
+      * ![img_10.png](src/main/resources/image/image3/img_10.png)
   * ## Persistence Layer 테스트 (1)
-    * ![img_11.png](img_11.png)
-    * ![img_12.png](img_12.png)
+    * ![img_11.png](src/main/resources/image/image3/img_11.png)
+    * ![img_12.png](src/main/resources/image/image3/img_12.png)
       * ### @MappedSuperclass 
         * #### -> **JPA(Java Persistence API)**에서 사용되며, 엔티티 클래스들이 상속받을 수 있는 공통 부모 클래스를 정의할 때 사용
         * #### -> @MappedSuperclass로 지정된 클래스는 엔티티가 아니기 때문에 테이블에 직접 매핑되지 않습니다. 하지만, 상속받는 클래스가 실제 엔티티일 경우, BaseEntity의 필드들이 상속 엔티티 테이블의 컬럼으로 매핑
@@ -121,40 +121,95 @@
       * ### @LastModifiedDate
         * #### -> 마찬가지로 JPA Auditing 기능을 이용하여, 엔티티가 수정될 때의 시간을 자동으로 기록
         * #### -> 티티가 업데이트될 때마다 modifiedDateTime 필드에 해당 시점이 저장
-      * ![img_13.png](img_13.png)
+      * ![img_13.png](src/main/resources/image/image3/img_13.png)
         * ####  JPA Auditing 기능을 사용한다고 SpringBoot에게 알려줘야함
-      * ![img_14.png](img_14.png)
+      * ![img_14.png](src/main/resources/image/image3/img_14.png)
     * ### application.yml 
-      * ![img_15.png](img_15.png)
-      * ![img_16.png](img_16.png)
+      * ![img_15.png](src/main/resources/image/image3/img_15.png)
+      * ![img_16.png](src/main/resources/image/image3/img_16.png)
         * #### Spring Profiles : Default : local -> 프로파일을 지정하지 않으면 항상 하위에 있는 Local Profile로 뜬다를 기본으로 설정 
         * #### DataSource 기본을 h2로 지정 -> MYSQL, Oracle..변환 가능
         * #### ddl-auto : none -> 기본설정을 none으로 지정, local, test에서만 create로 지정 
           * #### create, create-drop : DDL 자체를 서버가 뜰 때 새로 만들 것인가, create-drop은 새로 만들었다가 서버가 내려갈 떄 드랍이 되어버림
           * #### -> 매번 테스트를 하기 위해서 DDL 할 필요가 없어짐 (jpa entity기반으로 테이블 생성해줌)
         * ####  defer-datasource-initialization: true -> 매번 데이터 생성하는 번거러움을 제거해줌, data.sql파일에 있는 sql문을 실행시켜줌
-          * ![img_18.png](img_18.png)
+          * ![img_18.png](src/main/resources/image/image3/img_18.png)
             * #### Hibernate 초기화 이후 data.sql 실행시켜줌 
             * #### Hibernate가 초기화 되어야 테이블 정보가 생성됨
-      * ![img_17.png](img_17.png)
+      * ![img_17.png](src/main/resources/image/image3/img_17.png)
         * #### 테스트용 Profile -> 테스트를 실행할 때는 이 프로파일로 테스트 프로파일로 돌리도록 함
         * #### mode : never -> data.sql을 사용하지 않을거라서 설정해둠
     * ### ProductEntity
-      * ![img_22.png](img_22.png)
+      * ![img_22.png](src/main/resources/image/image3/img_22.png)
     * ### ProductRepository
-      * ![img_19.png](img_19.png)
+      * ![img_19.png](src/main/resources/image/image3/img_19.png)
     * ### ProductService
-      * ![img_20.png](img_20.png)
+      * ![img_20.png](src/main/resources/image/image3/img_20.png)
     * ### ProductController
-      * ![img_21.png](img_21.png)
+      * ![img_21.png](src/main/resources/image/image3/img_21.png)
     * ### 실행결과
-      * ![img_23.png](img_23.png)
+      * ![img_23.png](src/main/resources/image/image3/img_23.png)
 
   * ## Persistence Layer 테스트 (2)
     * ### 리포지토리테스트 -> 단위 테스트 성격에 가까움 why? 데이터베이스에 액세스하는 로직만 가지고 있기 때문에
     * ### @SpringBootTest : Spring 서버를 띄워서 테스트할 수 있음
     * ### @DataJpaTest : 애도 Spring 서버를 띄움 but @SpringBootTest보다 가벼움 why? jpa 관련된 빈들만 주입을 해줘서 서버를 띄우기 때문에
-    * ![img_24.png](img_24.png)
+    * ![img_24.png](src/main/resources/image/image3/img_24.png)
       * #### list테스트할 때 주로 쓰는 메서드들
-    * ![img_25.png](img_25.png)
+    * ![img_25.png](src/main/resources/image/image3/img_25.png)
       * #### ActiveProfiles("test") -> test Profile을 쓰겠다라는 뜻 (data.sql파일 실행X)
+
+  * ## Business Layer 테스트 (1)
+    * ### Persistence Layer ?
+      * ![img_26.png](src/main/resources/image/image3/img_26.png)
+      * ![img_28.png](src/main/resources/image/image3/img_28.png)
+    * ### Business Layer ?
+      * ![img_27.png](src/main/resources/image/image3/img_27.png)
+      * ![img_29.png](src/main/resources/image/image3/img_29.png)
+    * ### 요구사항
+      * ![img_30.png](src/main/resources/image/image3/img_30.png)
+    * ### OrderEntity, OrderStatus 생성
+      * ![img_31.png](src/main/resources/image/image3/img_31.png)
+    * ### 관계형 Entity인 OrderProduct 생성
+      * ![img_32.png](src/main/resources/image/image3/img_32.png)
+    * ### OrderController 생성
+      * ![img_33.png](src/main/resources/image/image3/img_33.png)
+    * ### OrderCreateRequest 생성
+      * ![img_34.png](src/main/resources/image/image3/img_34.png)
+    * ### OrderService 생성
+      * ![img_35.png](src/main/resources/image/image3/img_35.png)
+    * ### OrderResponse 생성
+      * ![img_36.png](src/main/resources/image/image3/img_36.png)
+    * ### OrderServiceTest -> Red 단계 
+      * ![img_37.png](src/main/resources/image/image3/img_37.png)
+      * ![img_38.png](src/main/resources/image/image3/img_38.png)
+    * ### OrderServiceTest -> Green 단계
+      * ![img_39.png](src/main/resources/image/image3/img_39.png)
+      * ![img_40.png](src/main/resources/image/image3/img_40.png)
+      * ![img_41.png](src/main/resources/image/image3/img_41.png)
+      * ![img_42.png](src/main/resources/image/image3/img_42.png)
+      * ![img_43.png](src/main/resources/image/image3/img_43.png)
+        * #### OrderEntity, OrderTest (단위 테스트)
+          * ![img_44.png](src/main/resources/image/image3/img_44.png)
+          * ![img_45.png](src/main/resources/image/image3/img_45.png)
+            * #### 실패 (Red 단계)
+          * ![img_46.png](src/main/resources/image/image3/img_46.png)
+            * #### OrderTest 다시 돌려보면 성공 (Green 단계)
+          * ![img_47.png](src/main/resources/image/image3/img_47.png)
+            * #### 리팩터링 -> 메서드 분리 (Blue 단계) 
+        * #### 주문 등록날짜시간을 외부에서 주입받도록 -> 테스트하기 쉽게
+          * ![img_48.png](src/main/resources/image/image3/img_48.png)
+          * ![img_49.png](src/main/resources/image/image3/img_49.png)
+          * ![img_50.png](src/main/resources/image/image3/img_50.png)
+          * ![img_51.png](src/main/resources/image/image3/img_51.png)
+        * #### OrderProduct 만들기
+          * ![img_52.png](src/main/resources/image/image3/img_52.png)
+        * #### OrderResponse에 맵핑메서드 추가
+          * ![img_53.png](src/main/resources/image/image3/img_53.png)
+          * ![img_54.png](src/main/resources/image/image3/img_54.png)
+        * #### OrderRepository 생성
+          * ![img_55.png](src/main/resources/image/image3/img_55.png)
+          * ![img_56.png](src/main/resources/image/image3/img_56.png)
+            * #### save를 해야 pk인 id값이 존재하기 때문에
+        * #### 다시 OrderServiceTest 실행 성공 -> LocalDateTime 변수로 뽑고, ActiveFile("test") 지정
+          * ![img_57.png](src/main/resources/image/image3/img_57.png)
