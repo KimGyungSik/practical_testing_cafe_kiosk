@@ -213,3 +213,26 @@
             * #### save를 해야 pk인 id값이 존재하기 때문에
         * #### 다시 OrderServiceTest 실행 성공 -> LocalDateTime 변수로 뽑고, ActiveFile("test") 지정
           * ![img_57.png](src/main/resources/image/image3/img_57.png)
+        * #### 중복되는 상품번호 리스트로 주문을 생성할 수 있다 -> 테스트 코드 작성 (Red 단계)
+          * ![img.png](img.png) 
+          * #### 중복되는 번호에는 반환되는 데이터가 중복제거되어서 나옴
+            * ![img_1.png](img_1.png)
+          * #### Map을 활용하여 상품번호(key),상품(value)로 저장하여 productNumbers를 다시 순회하면서 상품을 꺼내옴 (Green 단계)
+            * ![img_2.png](img_2.png)
+          * #### 테스트 성공
+    * ### OrderService 리팩토링 -> Blue 단계
+      * ![img_3.png](img_3.png)
+        * #### 리팩토링 후 항상 다시 테스트 돌려볼 것 정상동작하는지
+    * ### OrderService테스트 두개의 메서드가 서로 영향을 주고 있어서 전체 테스트 시 실패함 -> @AfterEach를 이용하여 데이터 클렌징 작업해줘야함
+      * ![img_7.png](img_7.png)
+        * #### 데이터 지우는 순서 중요
+      * #### OrderProductRepository 생성 -> 해당 엔티티에 쌓이는 데이터도 지워줘야하기때문
+        * ![img_4.png](img_4.png)
+        * ![img_5.png](img_5.png)
+      * #### ProductRepositoryTest는 데이터 클랜징을 안해줘도 자동 롤백이 됨 why? 메타 애너테이션으로 @Transactional을 가지고 있음
+        * ![img_8.png](img_8.png)
+    * ### httpie를 이용한 Controller 엔드포인트 테스트
+      * ![img_9.png](img_9.png)
+      * ![img_10.png](img_10.png)
+    * ### OrderProduct엔티티에 order_id값이 어떻게 저장되는가 ?
+      * ![img_11.png](img_11.png)
