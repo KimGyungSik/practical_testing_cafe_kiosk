@@ -341,3 +341,26 @@
           * #### 낙관적 락은 구분 컬럼을 두어 수정할 때 지금 수정하려는 데이터가 구분 컬럼의 값이 가장 최신 값인지 확인한 후 가장 최신 값이라면, 값을 수정할 수 있도록 하고, 아니라면 재 요청을 보내도록 하여 DB 충돌 상황을 개선하는 락
           * #### 낙천적 락은 DB에서 제공해주는 특징을 이용하는 것이 아닌 Application Level에서 잡아주는 Lock
   
+  * ## Presentation Layer 테스트 (1)
+    * ![img_2.png](img_2.png)
+    * ![img_3.png](img_3.png)
+    * ### Mock ? (가짜, 대역..)
+      * ### MockMvc ? 
+        * ![img_4.png](img_4.png)
+    * ### 요구사항 추가
+      * ![img_5.png](img_5.png)
+      * ![img_6.png](img_6.png)
+    * ### ProductController에 상품생성하는 Post 메서드 추가
+      * ![img_7.png](img_7.png)
+      * #### ProductCreateRequest 생성
+        * ![img_8.png](img_8.png)
+          * #### id는 db에 insert할 시 자동 생성되므로 제외
+    * ### ProductService에 추가된 createProduct 메서드 구현
+      * ![img_9.png](img_9.png)
+      * ![img_10.png](img_10.png)
+      * #### productRepository에 findLatesProduct메서드 생성 
+        * ![img_11.png](img_11.png)
+      * #### findLatesProduct메서드 테스트 작성
+        * ![img_12.png](img_12.png)
+        * ![img_13.png](img_13.png)
+      * 
