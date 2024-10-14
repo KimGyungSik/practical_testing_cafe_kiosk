@@ -397,3 +397,83 @@
       * #### createProduct -> Create 작업 (커맨드 작업)
         * ![img_26.png](img_26.png)
           * #### 클래스 상단에 readOnly = true를 걸고 CUD 작업이 있다면 @Transactional을 메서드 단위에 걸자
+
+  * ## Presentation Layer 테스트 (2)
+    * ### ProductController 테스트 작성
+      * ![img_27.png](img_27.png)
+      * ![img_28.png](img_28.png)
+        * #### @MockMvcTest : 컨트롤러와 관련된 빈들만 로드하여 테스트 환경을 구성, 웹 계층에 대한 테스트만 수행하며, 서비스, 리포지토리, 데이터베이스 관련 빈들은 로드하지 않음
+        * #### @MockBean : 컨테이너에 Mockito로 만든 Mock객체를 넣어주는 역할
+      * ![img_29.png](img_29.png)
+        * #### ObjectMapper : JSON과 Object간의 직렬화, 역직렬화를 도와줌
+        * #### 테스트 실패 -> @EnableJpaAuting 관련 빈 생성을 못함 -> Config 분리
+          * ![img_30.png](img_30.png)
+      * ![img_31.png](img_31.png)
+        * #### @RequestBody 추가
+      * ![img_32.png](img_32.png)
+        * #### ProductCreateRequest에 기본 생성자 추가 -> ObjectMapper가 역직렬화를 도와주는데 (JSON으로 들어온 값을 String으로 직렬화되서 들어온 값을 ProductCreateRequest로 다시 맵핑해줘야함) 이떄 ObjectMapper가 해당 클래스 기본 생성자를 사용함
+      * ![img_33.png](img_33.png)
+      * ![img_34.png](img_34.png)
+        * #### andDo(MockMvcResultHandlers.print()) 추가 -> 요청이 어떻게 날라갔는지 상세하게 확인이 가능함
+      * #### ProductCreateRequest에 Validation 기능 추가
+        * ![img_35.png](img_35.png)
+        * ![img_36.png](img_36.png)
+        * ![img_37.png](img_37.png)
+      * #### ApiResponse 생성 -> 공통적으로 사용할 수 있는 응답 포맷
+        * ![img_38.png](img_38.png)
+        * ![img_39.png](img_39.png)
+        * ![img_42.png](img_42.png)
+      * #### ApiControllerAdvice 생성 -> Validation 예외처리를 위해
+        * ![img_41.png](img_41.png) 
+        * ![img_44.png](img_44.png)
+        * ####  @ResponseStatus 추가 -> 해당 예외가 발생했을 떄 어떤 코드로 줄 거야~를 정하는 것
+          * ![img_43.png](img_43.png)
+      * #### ApiResponse -> Geterr 추가(Getter기반으로 JSON 생성) / ApiControllerAdvice -> @RestControllerAdivce로 수정
+        * ![img_45.png](img_45.png)
+        * ![img_46.png](img_46.png)
+      * #### Validation 예외 테스트 작성 
+        * ![img_47.png](img_47.png)
+        * ![img_48.png](img_48.png)
+        * ![img_49.png](img_49.png)
+        * ![img_50.png](img_50.png)
+    * ### @NotNull, @NotBlank, @NotEmpty
+      * #### @NotNull : 스트링의 기준으로 빈 문자열 ("") 혹은 공백이 있는 문자열 ("  ")이런 것들은 통과됨
+      * #### @NotEmpty : 공백 ("   ")은 통과함 하지만 빈 문자열("")은 거름
+      * #### @NotBlank : 공백, 빈 문자열 둘다 안됨
+    * ### 상품 이름을 20자 제한 -> 이걸 여기서 검증하는게 맞나? 라는걸 고민해봐야함
+      * #### 상품 이름을 20자 제한이라는 정책 -> 컨트롤러 레이어에서 튕겨낼 책임이 맞는가에 대한 고민을 해보라는 것
+      * #### 문자열이라면 합당이 가져야 할 그런 속성들에 대한 Validation과 이런 도메인 정책에 맞는 도메인 성격에 맞는 상품 이름을 20자 제한한다는 것과 같은 더 특수한 형태의 Validation을 구분할 줄 아는 고민을 해야함
+      * #### ex) 컨트롤러 단에서는 NotBlank에 대해서만 validation / 상품 이름을 20자 제한은 조금 더 안쪽인 서비스 레이어 or 도메인 객체(Product 생성 시점) 생성자에서 validation
+    * ### ProductController - getSellingProducts 메서드 테스트 작성
+      * ![img_51.png](img_51.png)
+      * ![img_52.png](img_52.png)
+        * #### productService.getSellingProducts() -> 서비스 레이어에서 이미 다 테스트가 된 부분이기 떄문에
+        * #### Array형태가 잘 오는가에 대한 것만 검증하면 됨
+    * ### OrderController 테스트 작성
+      * ![img_53.png](img_53.png)
+        * #### OrderCreateRequest에 검증할 필드에 애노테이션 달아줌
+      * ![img_54.png](img_54.png)
+        * #### ApiResponse로 감싸서 반환, @Valid 추가
+      * ![img_55.png](img_55.png)
+      * ![img_56.png](img_56.png)
+    * ### 리팩토링 -> DTO로 인한 의존성 문제 해결 (서비스 -> 컨트롤러 : 서비스가 컨트롤러를 알고있다)
+      * #### 서비스 메서드의 파라미터에서 컨트롤러의 DTO를 사용하다 보니 의존 관계가 생김 
+        * ![img_57.png](img_57.png)
+      * #### 서비스가 커지게 되었을떄, 서비스 레이어와 컨트롤러 레이어를 분리하고 싶은데 해당 DTO를 서비스 레이어에서 사용하는 것이 허들이 됨
+      * #### 하위 레이어가 상위 레이어를 알고 있다는 것은 안좋음 그림
+      * #### 서비스용 Request DTO를 따로 만들기 (OrderCreateRequest (컨트롤러 레이어 DTO) -> OrderCreateServiceRequest (서비스 레이어 DTO) )
+        * ![img_58.png](img_58.png)
+        * ![img_59.png](img_59.png)
+        * ![img_60.png](img_60.png)
+          * #### Controller에서 OrderCreateRequest를 OrderCreateServiceRequest로 변환에서 넘겨줌
+        * ![img_61.png](img_61.png)
+      * #### 이렇게 되면 -> 서비스 레이어는 클린한 POJO 형태의 DTO로 관리를 하게되고, 컨트롤러 DTO에서만 validation 책임을 가져갈 수 있도록 책임분리가 되었음
+      * #### 가장 바깥쪽에 있는 프레젠테이션 레이어가 변경되어도 서비스 레이어는 영향 받지 않도록 설계해야함
+      * #### ProductCreateRequest -> ProductCreateServiceRequest 똑같이 리팩토링 
+        * ![img_62.png](img_62.png)
+          * #### 이제 Entity로 변환하는 메서드는 ProductCreateServiceRequest가 가짐
+        * ![img_63.png](img_63.png)
+        * ![img_64.png](img_64.png)
+          * #### ProductCreateRequest는 validation 책임만 가짐
+        * ![img_65.png](img_65.png)
+          * #### 서비스 레이어에서는 ProductCreateServiceRequest를 사용
