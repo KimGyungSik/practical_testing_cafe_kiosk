@@ -363,4 +363,37 @@
       * #### findLatesProduct메서드 테스트 작성
         * ![img_12.png](img_12.png)
         * ![img_13.png](img_13.png)
-      * 
+    * ### ProductService - createProduct 메서드 TDD (Red 단계) 
+      * ![img_15.png](img_15.png) 
+      * ![img_14.png](img_14.png)
+    * ### createProduct 메서드 TDD (Green 단계)
+      * ![img_16.png](img_16.png)
+        * #### 과장해서 작성한 것 -> 빠르게 초록불을 보기 위해
+      * ![img_17.png](img_17.png)
+        * #### 실제 구현 -> 테스트 성공
+    * ### createProduct 메서드 추가 정책 -> 상품이 하나도 없는 경우 신규 상품을 등록하면 상품번호는 001이다.
+      * ![img_18.png](img_18.png)
+        * #### 실패
+      * ![img_19.png](img_19.png)
+      * ![img_20.png](img_20.png)
+        * #### 성공
+    * ### createProduct 메서드 -> 동시성 이슈..
+      * #### 해결방안 1. productNumber에 unique 제약 조건을 걸고 만약 unique 제약 조건 위배가 발생하면 -> 3회 이상 재시도하는 로직 실행
+      * #### 해결방안 2. UUID 사용 -> 동시성 생각할 필요는 없어짐
+    * ### createProduct 메서드 TDD (Blue 단계)
+      * #### 생각해보니 product를 저장을 안했음 ㅋㅋ 
+      * ![img_21.png](img_21.png)
+      * ![img_22.png](img_22.png)
+      * ![img_23.png](img_23.png)
+      * ![img_24.png](img_24.png)
+      * ![img_25.png](img_25.png)
+        * #### 리팩터링 완료
+    * ### @Transactional(readOnly = true) ?
+      * #### 읽기전용 
+      * #### CURD 에서 CUD 동작 X / only Read
+      * #### JPA : CUD 스냅샷 저장, 변경감지 X (성능 향상)
+      * #### CQRS - Command / Query  -> 커맨드용 서비스(readOnly = false)와 쿼리용 서비스(readOnly = true)를 분리하자 !!
+    * ### readOnly = true 라는 것을 쿼리용 메서드(R)와 커맨드용 메서드(CUD) 행위에 잘 나눠서 달자!!
+      * #### createProduct -> Create 작업 (커맨드 작업)
+        * ![img_26.png](img_26.png)
+          * #### 클래스 상단에 readOnly = true를 걸고 CUD 작업이 있다면 @Transactional을 메서드 단위에 걸자
