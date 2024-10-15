@@ -325,12 +325,12 @@
           * #### 베타 락은 다른 트랜잭션이 수행되고 있는 데이터에 접근하여 함께 락을 설정할 수 없음
         * #### 데드 락 ?
           * #### 두 트랜잭션 모두가 블로킹 상태에 진입하여 서로의 블로킹을 해결할 수 없는 상태
-            * ![img_1.png](img_1.png)
+            * ![img_1.png](src/main/resources/image/image5/img_1.png)
         * #### 참고 -> 락은 설정 범위를 결정할 수 있는데, 락을 거는 범위에 따라 나뉨 
           * #### 락 설정 범위 : DB, 파일, 테이블, 페이지, 컬럼, 행
       * ### DB 충돌 상황(블로킹)
         * #### -> Lock 간의 경합이 발생해서 특정 트랜잭션이 작업을 진행하지 못하고 대기하는 상태
-        * ![img.png](img.png)
+        * ![img.png](src/main/resources/image/image5/img.png)
       * ### DB 충돌 상황을 개선할 수 있는 방법
         * #### 비관적 락 (Pessimistic lock) -> 자원 요청에 따른 동시성문제가 발생할것이라고 예상하고 락을 걸어버리는 방법론
           * #### 비관적 락은 Repeatable Read 또는 Serializable 수준의 격리성 을 제공
@@ -342,51 +342,51 @@
           * #### 낙천적 락은 DB에서 제공해주는 특징을 이용하는 것이 아닌 Application Level에서 잡아주는 Lock
   
   * ## Presentation Layer 테스트 (1)
-    * ![img_2.png](img_2.png)
-    * ![img_3.png](img_3.png)
+    * ![img_2.png](src/main/resources/image/image5/img_2.png)
+    * ![img_3.png](src/main/resources/image/image5/img_3.png)
     * ### Mock ? (가짜, 대역..)
       * ### MockMvc ? 
-        * ![img_4.png](img_4.png)
+        * ![img_4.png](src/main/resources/image/image5/img_4.png)
     * ### 요구사항 추가
-      * ![img_5.png](img_5.png)
-      * ![img_6.png](img_6.png)
+      * ![img_5.png](src/main/resources/image/image5/img_5.png)
+      * ![img_6.png](src/main/resources/image/image5/img_6.png)
     * ### ProductController에 상품생성하는 Post 메서드 추가
-      * ![img_7.png](img_7.png)
+      * ![img_7.png](src/main/resources/image/image5/img_7.png)
       * #### ProductCreateRequest 생성
-        * ![img_8.png](img_8.png)
+        * ![img_8.png](src/main/resources/image/image5/img_8.png)
           * #### id는 db에 insert할 시 자동 생성되므로 제외
     * ### ProductService에 추가된 createProduct 메서드 구현
-      * ![img_9.png](img_9.png)
-      * ![img_10.png](img_10.png)
+      * ![img_9.png](src/main/resources/image/image5/img_9.png)
+      * ![img_10.png](src/main/resources/image/image5/img_10.png)
       * #### productRepository에 findLatesProduct메서드 생성 
-        * ![img_11.png](img_11.png)
+        * ![img_11.png](src/main/resources/image/image5/img_11.png)
       * #### findLatesProduct메서드 테스트 작성
-        * ![img_12.png](img_12.png)
-        * ![img_13.png](img_13.png)
+        * ![img_12.png](src/main/resources/image/image5/img_12.png)
+        * ![img_13.png](src/main/resources/image/image5/img_13.png)
     * ### ProductService - createProduct 메서드 TDD (Red 단계) 
-      * ![img_15.png](img_15.png) 
-      * ![img_14.png](img_14.png)
+      * ![img_15.png](src/main/resources/image/image5/img_15.png) 
+      * ![img_14.png](src/main/resources/image/image5/img_14.png)
     * ### createProduct 메서드 TDD (Green 단계)
-      * ![img_16.png](img_16.png)
+      * ![img_16.png](src/main/resources/image/image5/img_16.png)
         * #### 과장해서 작성한 것 -> 빠르게 초록불을 보기 위해
-      * ![img_17.png](img_17.png)
+      * ![img_17.png](src/main/resources/image/image5/img_17.png)
         * #### 실제 구현 -> 테스트 성공
     * ### createProduct 메서드 추가 정책 -> 상품이 하나도 없는 경우 신규 상품을 등록하면 상품번호는 001이다.
-      * ![img_18.png](img_18.png)
+      * ![img_18.png](src/main/resources/image/image5/img_18.png)
         * #### 실패
-      * ![img_19.png](img_19.png)
-      * ![img_20.png](img_20.png)
+      * ![img_19.png](src/main/resources/image/image5/img_19.png)
+      * ![img_20.png](src/main/resources/image/image5/img_20.png)
         * #### 성공
     * ### createProduct 메서드 -> 동시성 이슈..
       * #### 해결방안 1. productNumber에 unique 제약 조건을 걸고 만약 unique 제약 조건 위배가 발생하면 -> 3회 이상 재시도하는 로직 실행
       * #### 해결방안 2. UUID 사용 -> 동시성 생각할 필요는 없어짐
     * ### createProduct 메서드 TDD (Blue 단계)
       * #### 생각해보니 product를 저장을 안했음 ㅋㅋ 
-      * ![img_21.png](img_21.png)
-      * ![img_22.png](img_22.png)
-      * ![img_23.png](img_23.png)
-      * ![img_24.png](img_24.png)
-      * ![img_25.png](img_25.png)
+      * ![img_21.png](src/main/resources/image/image5/img_21.png)
+      * ![img_22.png](src/main/resources/image/image5/img_22.png)
+      * ![img_23.png](src/main/resources/image/image5/img_23.png)
+      * ![img_24.png](src/main/resources/image/image5/img_24.png)
+      * ![img_25.png](src/main/resources/image/image5/img_25.png)
         * #### 리팩터링 완료
     * ### @Transactional(readOnly = true) ?
       * #### 읽기전용 
@@ -395,47 +395,47 @@
       * #### CQRS - Command / Query  -> 커맨드용 서비스(readOnly = false)와 쿼리용 서비스(readOnly = true)를 분리하자 !!
     * ### readOnly = true 라는 것을 쿼리용 메서드(R)와 커맨드용 메서드(CUD) 행위에 잘 나눠서 달자!!
       * #### createProduct -> Create 작업 (커맨드 작업)
-        * ![img_26.png](img_26.png)
+        * ![img_26.png](src/main/resources/image/image5/img_26.png)
           * #### 클래스 상단에 readOnly = true를 걸고 CUD 작업이 있다면 @Transactional을 메서드 단위에 걸자
 
   * ## Presentation Layer 테스트 (2)
     * ### ProductController 테스트 작성
-      * ![img_27.png](img_27.png)
-      * ![img_28.png](img_28.png)
+      * ![img_27.png](src/main/resources/image/image5/img_27.png)
+      * ![img_28.png](src/main/resources/image/image5/img_28.png)
         * #### @MockMvcTest : 컨트롤러와 관련된 빈들만 로드하여 테스트 환경을 구성, 웹 계층에 대한 테스트만 수행하며, 서비스, 리포지토리, 데이터베이스 관련 빈들은 로드하지 않음
         * #### @MockBean : 컨테이너에 Mockito로 만든 Mock객체를 넣어주는 역할
-      * ![img_29.png](img_29.png)
+      * ![img_29.png](src/main/resources/image/image5/img_29.png)
         * #### ObjectMapper : JSON과 Object간의 직렬화, 역직렬화를 도와줌
         * #### 테스트 실패 -> @EnableJpaAuting 관련 빈 생성을 못함 -> Config 분리
-          * ![img_30.png](img_30.png)
-      * ![img_31.png](img_31.png)
+          * ![img_30.png](src/main/resources/image/image5/img_30.png)
+      * ![img_31.png](src/main/resources/image/image5/img_31.png)
         * #### @RequestBody 추가
-      * ![img_32.png](img_32.png)
+      * ![img_32.png](src/main/resources/image/image5/img_32.png)
         * #### ProductCreateRequest에 기본 생성자 추가 -> ObjectMapper가 역직렬화를 도와주는데 (JSON으로 들어온 값을 String으로 직렬화되서 들어온 값을 ProductCreateRequest로 다시 맵핑해줘야함) 이떄 ObjectMapper가 해당 클래스 기본 생성자를 사용함
-      * ![img_33.png](img_33.png)
-      * ![img_34.png](img_34.png)
+      * ![img_33.png](src/main/resources/image/image5/img_33.png)
+      * ![img_34.png](src/main/resources/image/image5/img_34.png)
         * #### andDo(MockMvcResultHandlers.print()) 추가 -> 요청이 어떻게 날라갔는지 상세하게 확인이 가능함
       * #### ProductCreateRequest에 Validation 기능 추가
-        * ![img_35.png](img_35.png)
-        * ![img_36.png](img_36.png)
-        * ![img_37.png](img_37.png)
+        * ![img_35.png](src/main/resources/image/image5/img_35.png)
+        * ![img_36.png](src/main/resources/image/image5/img_36.png)
+        * ![img_37.png](src/main/resources/image/image5/img_37.png)
       * #### ApiResponse 생성 -> 공통적으로 사용할 수 있는 응답 포맷
-        * ![img_38.png](img_38.png)
-        * ![img_39.png](img_39.png)
-        * ![img_42.png](img_42.png)
+        * ![img_38.png](src/main/resources/image/image5/img_38.png)
+        * ![img_39.png](src/main/resources/image/image5/img_39.png)
+        * ![img_42.png](src/main/resources/image/image5/img_42.png)
       * #### ApiControllerAdvice 생성 -> Validation 예외처리를 위해
-        * ![img_41.png](img_41.png) 
-        * ![img_44.png](img_44.png)
+        * ![img_41.png](src/main/resources/image/image5/img_41.png) 
+        * ![img_44.png](src/main/resources/image/image5/img_44.png)
         * ####  @ResponseStatus 추가 -> 해당 예외가 발생했을 떄 어떤 코드로 줄 거야~를 정하는 것
-          * ![img_43.png](img_43.png)
+          * ![img_43.png](src/main/resources/image/image5/img_43.png)
       * #### ApiResponse -> Geterr 추가(Getter기반으로 JSON 생성) / ApiControllerAdvice -> @RestControllerAdivce로 수정
-        * ![img_45.png](img_45.png)
-        * ![img_46.png](img_46.png)
+        * ![img_45.png](src/main/resources/image/image5/img_45.png)
+        * ![img_46.png](src/main/resources/image/image5/img_46.png)
       * #### Validation 예외 테스트 작성 
-        * ![img_47.png](img_47.png)
-        * ![img_48.png](img_48.png)
-        * ![img_49.png](img_49.png)
-        * ![img_50.png](img_50.png)
+        * ![img_47.png](src/main/resources/image/image5/img_47.png)
+        * ![img_48.png](src/main/resources/image/image5/img_48.png)
+        * ![img_49.png](src/main/resources/image/image5/img_49.png)
+        * ![img_50.png](src/main/resources/image/image5/img_50.png)
     * ### @NotNull, @NotBlank, @NotEmpty
       * #### @NotNull : 스트링의 기준으로 빈 문자열 ("") 혹은 공백이 있는 문자열 ("  ")이런 것들은 통과됨
       * #### @NotEmpty : 공백 ("   ")은 통과함 하지만 빈 문자열("")은 거름
@@ -445,47 +445,47 @@
       * #### 문자열이라면 합당이 가져야 할 그런 속성들에 대한 Validation과 이런 도메인 정책에 맞는 도메인 성격에 맞는 상품 이름을 20자 제한한다는 것과 같은 더 특수한 형태의 Validation을 구분할 줄 아는 고민을 해야함
       * #### ex) 컨트롤러 단에서는 NotBlank에 대해서만 validation / 상품 이름을 20자 제한은 조금 더 안쪽인 서비스 레이어 or 도메인 객체(Product 생성 시점) 생성자에서 validation
     * ### ProductController - getSellingProducts 메서드 테스트 작성
-      * ![img_51.png](img_51.png)
-      * ![img_52.png](img_52.png)
+      * ![img_51.png](src/main/resources/image/image5/img_51.png)
+      * ![img_52.png](src/main/resources/image/image5/img_52.png)
         * #### productService.getSellingProducts() -> 서비스 레이어에서 이미 다 테스트가 된 부분이기 떄문에
         * #### Array형태가 잘 오는가에 대한 것만 검증하면 됨
     * ### OrderController 테스트 작성
-      * ![img_53.png](img_53.png)
+      * ![img_53.png](src/main/resources/image/image5/img_53.png)
         * #### OrderCreateRequest에 검증할 필드에 애노테이션 달아줌
-      * ![img_54.png](img_54.png)
+      * ![img_54.png](src/main/resources/image/image5/img_54.png)
         * #### ApiResponse로 감싸서 반환, @Valid 추가
-      * ![img_55.png](img_55.png)
-      * ![img_56.png](img_56.png)
+      * ![img_55.png](src/main/resources/image/image5/img_55.png)
+      * ![img_56.png](src/main/resources/image/image5/img_56.png)
     * ### 리팩토링 -> DTO로 인한 의존성 문제 해결 (서비스 -> 컨트롤러 : 서비스가 컨트롤러를 알고있다)
       * #### 서비스 메서드의 파라미터에서 컨트롤러의 DTO를 사용하다 보니 의존 관계가 생김 
-        * ![img_57.png](img_57.png)
+        * ![img_57.png](src/main/resources/image/image5/img_57.png)
       * #### 서비스가 커지게 되었을떄, 서비스 레이어와 컨트롤러 레이어를 분리하고 싶은데 해당 DTO를 서비스 레이어에서 사용하는 것이 허들이 됨
       * #### 하위 레이어가 상위 레이어를 알고 있다는 것은 안좋음 그림
       * #### 서비스용 Request DTO를 따로 만들기 (OrderCreateRequest (컨트롤러 레이어 DTO) -> OrderCreateServiceRequest (서비스 레이어 DTO) )
-        * ![img_58.png](img_58.png)
-        * ![img_59.png](img_59.png)
-        * ![img_60.png](img_60.png)
+        * ![img_58.png](src/main/resources/image/image5/img_58.png)
+        * ![img_59.png](src/main/resources/image/image5/img_59.png)
+        * ![img_60.png](src/main/resources/image/image5/img_60.png)
           * #### Controller에서 OrderCreateRequest를 OrderCreateServiceRequest로 변환에서 넘겨줌
-        * ![img_61.png](img_61.png)
+        * ![img_61.png](src/main/resources/image/image5/img_61.png)
       * #### 이렇게 되면 -> 서비스 레이어는 클린한 POJO 형태의 DTO로 관리를 하게되고, 컨트롤러 DTO에서만 validation 책임을 가져갈 수 있도록 책임분리가 되었음
       * #### 가장 바깥쪽에 있는 프레젠테이션 레이어가 변경되어도 서비스 레이어는 영향 받지 않도록 설계해야함
       * #### ProductCreateRequest -> ProductCreateServiceRequest 똑같이 리팩토링 
-        * ![img_62.png](img_62.png)
+        * ![img_62.png](src/main/resources/image/image5/img_62.png)
           * #### 이제 Entity로 변환하는 메서드는 ProductCreateServiceRequest가 가짐
-        * ![img_63.png](img_63.png)
-        * ![img_64.png](img_64.png)
+        * ![img_63.png](src/main/resources/image/image5/img_63.png)
+        * ![img_64.png](src/main/resources/image/image5/img_64.png)
           * #### ProductCreateRequest는 validation 책임만 가짐
-        * ![img_65.png](img_65.png)
+        * ![img_65.png](src/main/resources/image/image5/img_65.png)
           * #### 서비스 레이어에서는 ProductCreateServiceRequest를 사용
 
 
 
   * ## 키워드 정리
-    * ![img_66.png](img_66.png)
+    * ![img_66.png](src/main/resources/image/image5/img_66.png)
       * ### Layered Architecture / Hexagoanl Architecture : 작은 시스템 / 커질수 있는 시스템에 용이
-    * ![img_67.png](img_67.png)
-    * ![img_68.png](img_68.png)
-    * ![img_69.png](img_69.png)
+    * ![img_67.png](src/main/resources/image/image5/img_67.png)
+    * ![img_68.png](src/main/resources/image/image5/img_68.png)
+    * ![img_69.png](src/main/resources/image/image5/img_69.png)
       * ### validation 할때 중요한 것! 
         * ### 도메인 요구사항에서 나온 validaiton과 기본적으로 그 타입이 갖고 있어야 되는 validation의 차이를 구분하고 
         * ### 컨트롤러에서는 최소한의 검증(진짜 문자열 다운지에 대한 검증)만을 하고 실제 도메인 레이어에서 검증해야 될 혹은 서비스 레이어에서 검증해야 될 것들은 그쪽에서 검증해서 예외(custiom Exception)를 발생시키자
