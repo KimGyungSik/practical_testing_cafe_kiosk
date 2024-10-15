@@ -491,4 +491,48 @@
         * ### 컨트롤러에서는 최소한의 검증(진짜 문자열 다운지에 대한 검증)만을 하고 실제 도메인 레이어에서 검증해야 될 혹은 서비스 레이어에서 검증해야 될 것들은 그쪽에서 검증해서 예외(custiom Exception)를 발생시키자
         
 
-* 
+* # Mock을 마주하는 자세
+  * ## Mockito로 Stubbing하기
+    * ### 요구사항 추가
+      * ![img.png](img.png)
+    * ### OrderStatisticsService 생성
+      * ![img_1.png](img_1.png)
+    * ### OrderEntity -> registeredDateTime은 원래 주문등록일시 였는데 모의로 만들어보는거라 이걸로 사용 (사실 주문이 등록된 일시와 결제완료된 일시랑은 차이가 있어서 별도의 필드로 만들어줬어야함)
+      * ![img_2.png](img_2.png)
+    * ### 해당 일자에 결제완료된 주문들을 가져오기 위한 메서드 생성 -> findOrderBy
+      * ![img_3.png](img_3.png)
+      * ![img_4.png](img_4.png)
+      * ![img_5.png](img_5.png)
+        * #### OrderRepository 테스트 -> findOrderBy
+    * ### 총 매출 합계를 계산
+      * ![img_6.png](img_6.png)
+    * ### 메일 전송
+      * ![img_7.png](img_7.png)
+    * ### MailService 생성 -> 메일을 보내고 후처리나 전처리를 하기 위한 서비스
+      * ![img_9.png](img_9.png)
+    * ### MailSendClient 생성 (package sample.cafekiosk.spring.client.mail) -> 진짜 메일 전송을 하기 위한
+      * ![img_10.png](img_10.png)
+    * ### MailSendHistory Entity생성 -> 메일 전송 기록용 엔티티
+      * ![img_11.png](img_11.png)
+    * ### MailSendHistoryRepository 생성
+      * ![img_12.png](img_12.png)
+    * ### MailService - MailSendHistory를 save해줌 (메일 전송이 잘되었다는 것을 기록하기 위해)
+      * ![img_13.png](img_13.png)
+    * ### MailSendClient - log를 찍어봄 (메일 전송을 했는지)
+      * ![img_14.png](img_14.png)
+    * ### OrderStatisticsServiceTest 작성
+      * ![img_15.png](img_15.png)
+        * #### OrderEntity -> 주문의 상태도 넣어주고 싶기 때문에 Builder 추가하고 리팩터링
+      * ![img_16.png](img_16.png)
+        * #### OrderStatisticsService - sendOrderStatisticsMail 메서드 반환값을 boolean으로 변경
+      * ![img_17.png](img_17.png)
+        * #### MailSendClient - sendMail 메서드에 예외를 터지는 걸로 처리 -> 테스트 실패 (예외발생으로)
+      * ![img_18.png](img_18.png)
+        * #### '결제완료 주문들을 조회하여 매출 통계 메일을 전송한다' 테스트 작성
+      * ![img_20.png](img_20.png)
+        * #### MailSendClient -> Mocking 처리
+        * #### <strong> Mock : 가짜 객체를 넣어놓고 이 객체가 어떻게 행동했으면 좋겠어? 우리가 이런 요청을 했을 떄 어떤 결과 값을 던졌으면 좋겠어? 를 지정할 수 있는것 </strong>
+        * #### Stubbing -> 어떤 가짜 (원하는) 행위를 정의한 것
+    * ### 메일 전송하는 로직에는 @Transactional을 안쓰는게 좋음
+      * #### 메일 전송같은 긴 네트워크를 타거나 이런 긴 작업이 실제로 트랜잭션에는 참여하지 않아도됨
+      * #### find같은 조회용 메서드들은 조회용 트랜잭션이 따로 리포지토리 단에서 걸릴 거기때문에 긴 작업이 있는 서비스에는 트랜잭션을 걸지 않는게 좋음
