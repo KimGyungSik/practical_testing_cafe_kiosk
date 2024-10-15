@@ -477,3 +477,18 @@
           * #### ProductCreateRequest는 validation 책임만 가짐
         * ![img_65.png](img_65.png)
           * #### 서비스 레이어에서는 ProductCreateServiceRequest를 사용
+
+
+
+  * ## 키워드 정리
+    * ![img_66.png](img_66.png)
+      * ### Layered Architecture / Hexagoanl Architecture : 작은 시스템 / 커질수 있는 시스템에 용이
+    * ![img_67.png](img_67.png)
+    * ![img_68.png](img_68.png)
+    * ![img_69.png](img_69.png)
+      * ### validation 할때 중요한 것! 
+        * ### 도메인 요구사항에서 나온 validaiton과 기본적으로 그 타입이 갖고 있어야 되는 validation의 차이를 구분하고 
+        * ### 컨트롤러에서는 최소한의 검증(진짜 문자열 다운지에 대한 검증)만을 하고 실제 도메인 레이어에서 검증해야 될 혹은 서비스 레이어에서 검증해야 될 것들은 그쪽에서 검증해서 예외(custiom Exception)를 발생시키자
+        
+
+* 
