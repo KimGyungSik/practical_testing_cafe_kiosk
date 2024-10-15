@@ -28,7 +28,6 @@ public class ProductCreateRequest {
     private ProductSellingStatus sellingStatus;
 
     @NotBlank(message = "상품 이름은 필수입니다.")
-    @Max(20)
     private String name;
 
     @Positive(message = "상품 가격은 양수여야 합니다.")
