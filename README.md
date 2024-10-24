@@ -494,45 +494,81 @@
 * # Mock을 마주하는 자세
   * ## Mockito로 Stubbing하기
     * ### 요구사항 추가
-      * ![img.png](img.png)
+      * ![img.png](src/main/resources/image/image6/img.png)
     * ### OrderStatisticsService 생성
-      * ![img_1.png](img_1.png)
+      * ![img_1.png](src/main/resources/image/image6/img_1.png)
     * ### OrderEntity -> registeredDateTime은 원래 주문등록일시 였는데 모의로 만들어보는거라 이걸로 사용 (사실 주문이 등록된 일시와 결제완료된 일시랑은 차이가 있어서 별도의 필드로 만들어줬어야함)
-      * ![img_2.png](img_2.png)
+      * ![img_2.png](src/main/resources/image/image6/img_2.png)
     * ### 해당 일자에 결제완료된 주문들을 가져오기 위한 메서드 생성 -> findOrderBy
-      * ![img_3.png](img_3.png)
-      * ![img_4.png](img_4.png)
-      * ![img_5.png](img_5.png)
+      * ![img_3.png](src/main/resources/image/image6/img_3.png)
+      * ![img_4.png](src/main/resources/image/image6/img_4.png)
+      * ![img_5.png](src/main/resources/image/image6/img_5.png)
         * #### OrderRepository 테스트 -> findOrderBy
     * ### 총 매출 합계를 계산
-      * ![img_6.png](img_6.png)
+      * ![img_6.png](src/main/resources/image/image6/img_6.png)
     * ### 메일 전송
-      * ![img_7.png](img_7.png)
+      * ![img_7.png](src/main/resources/image/image6/img_7.png)
     * ### MailService 생성 -> 메일을 보내고 후처리나 전처리를 하기 위한 서비스
-      * ![img_9.png](img_9.png)
+      * ![img_9.png](src/main/resources/image/image6/img_9.png)
     * ### MailSendClient 생성 (package sample.cafekiosk.spring.client.mail) -> 진짜 메일 전송을 하기 위한
-      * ![img_10.png](img_10.png)
+      * ![img_10.png](src/main/resources/image/image6/img_10.png)
     * ### MailSendHistory Entity생성 -> 메일 전송 기록용 엔티티
-      * ![img_11.png](img_11.png)
+      * ![img_11.png](src/main/resources/image/image6/img_11.png)
     * ### MailSendHistoryRepository 생성
-      * ![img_12.png](img_12.png)
+      * ![img_12.png](src/main/resources/image/image6/img_12.png)
     * ### MailService - MailSendHistory를 save해줌 (메일 전송이 잘되었다는 것을 기록하기 위해)
-      * ![img_13.png](img_13.png)
+      * ![img_13.png](src/main/resources/image/image6/img_13.png)
     * ### MailSendClient - log를 찍어봄 (메일 전송을 했는지)
-      * ![img_14.png](img_14.png)
+      * ![img_14.png](src/main/resources/image/image6/img_14.png)
     * ### OrderStatisticsServiceTest 작성
-      * ![img_15.png](img_15.png)
+      * ![img_15.png](src/main/resources/image/image6/img_15.png)
         * #### OrderEntity -> 주문의 상태도 넣어주고 싶기 때문에 Builder 추가하고 리팩터링
-      * ![img_16.png](img_16.png)
+      * ![img_16.png](src/main/resources/image/image6/img_16.png)
         * #### OrderStatisticsService - sendOrderStatisticsMail 메서드 반환값을 boolean으로 변경
-      * ![img_17.png](img_17.png)
+      * ![img_17.png](src/main/resources/image/image6/img_17.png)
         * #### MailSendClient - sendMail 메서드에 예외를 터지는 걸로 처리 -> 테스트 실패 (예외발생으로)
-      * ![img_18.png](img_18.png)
+      * ![img_18.png](src/main/resources/image/image6/img_18.png)
         * #### '결제완료 주문들을 조회하여 매출 통계 메일을 전송한다' 테스트 작성
-      * ![img_20.png](img_20.png)
+      * ![img_20.png](src/main/resources/image/image6/img_20.png)
         * #### MailSendClient -> Mocking 처리
         * #### <strong> Mock : 가짜 객체를 넣어놓고 이 객체가 어떻게 행동했으면 좋겠어? 우리가 이런 요청을 했을 떄 어떤 결과 값을 던졌으면 좋겠어? 를 지정할 수 있는것 </strong>
         * #### Stubbing -> 어떤 가짜 (원하는) 행위를 정의한 것
     * ### 메일 전송하는 로직에는 @Transactional을 안쓰는게 좋음
       * #### 메일 전송같은 긴 네트워크를 타거나 이런 긴 작업이 실제로 트랜잭션에는 참여하지 않아도됨
       * #### find같은 조회용 메서드들은 조회용 트랜잭션이 따로 리포지토리 단에서 걸릴 거기때문에 긴 작업이 있는 서비스에는 트랜잭션을 걸지 않는게 좋음
+  * ## Test Double
+    * ![img_22.png](src/main/resources/image/image6/img_22.png)
+    * ![img_23.png](src/main/resources/image/image6/img_23.png)
+      
+  * ## @Mock, @Spy, @InjectMocks
+    * ### @MockBean -> 스프링 컨텍스트가 떠야 효과가 있음, 통합 테스트가 아닌 단위 테스트에서 머킹할 일이 생길 수 있기 때문에 순수 Mockito로만 테스트 진행
+    * ![img_24.png](src/main/resources/image/image6/img_24.png)
+      * ### @Mock으로 만든 Mock객체를 @InjectMocks로 걸려있는 객체의 생성자를 보고 주입해줌
+      * ### verify는 행위를 검증 -> mailSendHistoryRepository의 save메서드가 한번 호출되는지 검증
+    * ![img_25.png](src/main/resources/image/image6/img_25.png)
+    * ![img_26.png](src/main/resources/image/image6/img_26.png)
+      * ### MailSendClient 의 sendMail메서드만 stubbing하고 싶고, 밑에 a,b,c메서드는 원본 객체의 기능이 동일하게 작동했음 좋겠다 -> @Spy사용
+    * ![img_27.png](src/main/resources/image/image6/img_27.png)
+    * ![img_28.png](src/main/resources/image/image6/img_28.png)
+      * ### Spy는 실제 객체를 기반으로 만들어짐 -> when절 사용 못함
+      * ### 일부 메서드만 stubbing 하는 기술 -> 잘 쓰이진 않음
+  * ## BDDMockito
+    * ![img_29.png](src/main/resources/image/image6/img_29.png)
+      * ### Mockito를 상속받아서 이름만 바꾼거임 when이라는 메서드가 given절에 있는것이 부자연스럽기 떄문에
+      * ### Mockito 사용시 그냥 BDDMockito 사용 ㄱㄱ
+  * ## Classicist vs Mockist
+    * ### Classicist -> 필요한 부분만 Mocking 처리
+    * ### Mockist -> 모두 Mocking 처리
+    * ### 우리가 했던 Test
+      * ![img_30.png](src/main/resources/image/image6/img_30.png)
+      * ![img_31.png](src/main/resources/image/image6/img_31.png)
+      * ![img_32.png](src/main/resources/image/image6/img_32.png)
+    * ### Mockist가 원하는 테스트
+      * ![img_33.png](src/main/resources/image/image6/img_33.png)
+    * ### 언제 Mocking 써야 되나?
+      * ![img_34.png](src/main/resources/image/image6/img_34.png)
+        * #### 외부 의존에 대한 것들은 Mocking 처리 하는 것이 좋음
+      * ![img_36.png](src/main/resources/image/image6/img_36.png)
+  * ## 키워드 정리
+    * ![img_35.png](src/main/resources/image/image6/img_35.png)
+      * ### Stubbing : Mock 객체에 어떤 행위를 지정해주는 것
